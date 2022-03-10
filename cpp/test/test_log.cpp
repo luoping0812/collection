@@ -1,4 +1,4 @@
-#include "../Log.h"
+#include "Log.h"
 
 
 int main(int argc, char const *argv[])
