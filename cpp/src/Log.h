@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SingleTon.hpp"
+#include "Singleton.hpp"
 #include "TimeTool.h"
 #include "FileTool.h"
 #include "AppendFile.h"
@@ -56,7 +56,7 @@ enum class ELogLevel
 
 static inline std::string getLogLevelName(ELogLevel eLevel);
 
-class Logger : public SingleTon<Logger>
+class Logger : public Singleton<Logger>
 {
 public:
     Logger();

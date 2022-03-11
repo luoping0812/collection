@@ -5,7 +5,7 @@ namespace cpp
 
 
 template<typename T>
-class SingleTon
+class Singleton
 {
 public:
     static T* instance()
