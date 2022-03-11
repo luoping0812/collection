@@ -1,9 +1,23 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.0)
 
 project(cpp)
 
-include_directories(.)
 
-#set(src src/Log.cpp)
+include_directories(src)
 
-#add_executable(test_log ./test/test_log ${src})
+set(src_list 
+        src/Log.cpp
+        src/TimeTool.cpp
+        src/FileTool.cpp
+        src/AppendFile.cpp
+        src/ThreadPool.cpp
+)
+#aux_source_directory(src src)
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+find_library(libs pthread)
+
+add_executable(test_log ./test/test_log ${src_list})
+
+target_link_libraries(test_log ${libs})

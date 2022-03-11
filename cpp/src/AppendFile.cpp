@@ -16,29 +16,33 @@ AppendFile::AppendFile(const char* file)
 
 void AppendFile::open(const char* file)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    close();
+    m_fstream.open(file, std::ios::app);
+}
+
+void AppendFile::close()
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     if (m_fstream.is_open())
     {
+        flush();
         m_fstream.close();
     }
-    m_fstream.open(file, std::ios::app);
 }
 
 void AppendFile::flush()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    m_fstream.flush();
-}
-
-AppendFile::~AppendFile()
-{
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     if (m_fstream.is_open())
     {
         m_fstream.flush();
     }
-    
-    m_fstream.close();
+}
+
+AppendFile::~AppendFile()
+{
+    close();
 }
 
     

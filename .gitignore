@@ -4,3 +4,5 @@ a.exe
 *.gch
 .vscode
 *.log
+bin
+build

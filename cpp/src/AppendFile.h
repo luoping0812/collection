@@ -3,8 +3,9 @@
 #include <fstream> 
 #include <mutex>
 #include <memory>
+#include <assert.h>
 
-#include <ostream>
+#include <iostream>
 
 namespace cpp
 {
@@ -15,17 +16,21 @@ public:
     using ptr = std::shared_ptr<AppendFile>;
 
     explicit AppendFile(const char* file = nullptr);
+
     ~AppendFile();
 
-
     void open(const char* file);
+
+    void close();    
 
     void flush();
 
     template<typename T>
     AppendFile& append(T& val)
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::recursive_mutex> lock(m_mutex);
+        assert(m_fstream.is_open());
+        //std::cout << val;
         m_fstream << val;
         return *this;
     }
@@ -37,7 +42,7 @@ public:
     }
 
 private:
-    std::mutex m_mutex;
+    std::recursive_mutex m_mutex;
     std::fstream m_fstream;
 };
     
