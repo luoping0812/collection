@@ -1,6 +1,7 @@
 #include "Log.h"
 
-#include <chrono>
+
+using namespace cpp;
 
 int main(int argc, char const *argv[])
 {
@@ -13,13 +14,13 @@ int main(int argc, char const *argv[])
     LOG_INFO() << "hello";
     LOG_INFO() << "hello";
 
+    LOG_FMT_LEVEL(LLV_INFO, "123 %d", 10);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
     LOG_FMT_INFO("fmt %s %d", "hello", 123);
-
 
     return 0;
 }

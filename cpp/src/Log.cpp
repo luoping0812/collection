@@ -4,27 +4,34 @@
 namespace cpp
 {
 
-std::string getLogLevelName(ELogLevel eLevel)
+FileAppender::FileAppender(const std::string& name)
 {
-    std::stringstream os;
-    os << "[";
-    switch (eLevel)
-    {
-#define XX(str) \
-    case ELogLevel::LOG_LEVEL_##str: \
-        os << #str; \
-        break;
-
-        XX(TRACE)
-        XX(DEBUG)
-        XX(INFO)
-        XX(WARN)
-        XX(ERROR)
-    }
-    os << "]";
-
-    return os.str(); 
+    m_ptrAppend = std::shared_ptr<AppendFile>();
+    m_ptrAppend->open(name.c_str());
 }
+
+void FileAppender::append(const std::string& str)
+{
+    m_ptrAppend->append(str);
+    m_ptrAppend->flush();
+}
+
+FileAppender::~FileAppender()
+{
+    m_ptrAppend->close();
+}
+
+StdoutAppender::StdoutAppender(const std::string& name)
+{
+
+}
+
+void StdoutAppender::append(const std::string& str)
+{
+    std::cout << str;
+    std::cout.flush();
+}
+
 
 Logger::Logger()
     : m_strFile(TimeTool::getCurrentDateTime() + ".log")
@@ -44,25 +51,24 @@ void Logger::init(const std::string& strFile, ELogLevel eLevel, bool bAsync, siz
 
     m_strFile = strFile;
     m_eLevel = eLevel;
-    m_ptrAppendFile = std::make_shared<AppendFile>(strFile.c_str());
 }
 
 void Logger::log(const std::string& str)
 {
-    if (!m_ptrAppendFile)
+    if (!m_ptrAppender)
     {
-        m_ptrAppendFile = std::make_shared<AppendFile>(m_strFile.c_str());
+        m_ptrAppender = std::make_shared<StdoutAppender>(m_strFile);
     }
 
     if (m_bAsync)
     {
         m_ptrThreads->push([this, str](){
-            m_ptrAppendFile->append(str).flush();
+            m_ptrAppender->append(str);
         });
     }
     else
     {
-        m_ptrAppendFile->append(str).flush();
+        m_ptrAppender->append(str);
     }
 }
  
@@ -85,7 +91,7 @@ void LogStream::format(const char* fmt, ...)
 {
     va_list vl;
     va_start(vl, fmt);
-
+   
 #ifdef WIN32
     size_t size = sizeof(char) * 4096;
     char *buf = (char*)malloc(size);
@@ -94,14 +100,36 @@ void LogStream::format(const char* fmt, ...)
     char* buf = nullptr;
     ::vasprintf(&buf, fmt, vl);
 #endif
-    m_ostringstream << buf;
 
     if (buf)
     {
+        m_ostringstream << buf;
         free(buf);
     }
 
     va_end(vl);
 }
-   
+ 
+std::string getLogLevelName(ELogLevel eLevel)
+{
+    std::stringstream os;
+    os << "[";
+    switch (eLevel)
+    {
+#define XX(str) \
+    case ELogLevel::LOG_LEVEL_##str: \
+        os << #str; \
+        break;
+
+        XX(TRACE)
+        XX(DEBUG)
+        XX(INFO)
+        XX(WARN)
+        XX(ERROR)
+    }
+    os << "]";
+
+    return os.str(); 
+}
+
 } // namespace cpp

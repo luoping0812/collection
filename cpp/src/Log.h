@@ -20,7 +20,7 @@
 #define LLV_ERROR           cpp::ELogLevel::LOG_LEVEL_ERROR
 
 #define LOCAL_INFO \
-    cpp::TimeTool::getCurrentDateTime() , cpp::FileTool::getFileNameFromDir(__FILE__), __FUNCTION__, __LINE__
+    cpp::TimeTool::getCurrentDateTime(), cpp::FileTool::getFileNameFromDir(__FILE__), __FUNCTION__, __LINE__
 
 #define LOG_LEVEL(level) \
     if (level >= cpp::Logger::instance()->getLevel()) \
@@ -31,6 +31,7 @@
 #define LOG_INFO()           LOG_LEVEL(LLV_INFO)
 #define LOG_WARN()           LOG_LEVEL(LLV_WARN)
 #define LOG_ERROR()          LOG_LEVEL(LLV_ERROR)
+
 
 #define LOG_FMT_LEVEL(level, fmt, ...) \
     if (level >= cpp::Logger::instance()->getLevel()) \
@@ -54,7 +55,37 @@ enum class ELogLevel
     LOG_LEVEL_ERROR,
 };
 
-static inline std::string getLogLevelName(ELogLevel eLevel);
+class Appender
+{
+public:
+    using ptr = std::shared_ptr<Appender>;
+    virtual ~Appender() {} 
+
+    virtual void append(const std::string& str) = 0; 
+};
+
+class FileAppender : public Appender
+{
+public:
+    using ptr = std::shared_ptr<FileAppender>;
+    FileAppender(const std::string& name);
+    ~FileAppender();
+
+    void append(const std::string& str) override;
+
+private:
+    AppendFile::ptr m_ptrAppend;
+};
+
+class StdoutAppender : public Appender
+{
+public:
+    using ptr = std::shared_ptr<StdoutAppender>;
+    StdoutAppender(const std::string& name);
+    ~StdoutAppender() {}
+
+    void append(const std::string& str);
+};
 
 class Logger : public Singleton<Logger>
 {
@@ -62,7 +93,6 @@ public:
     Logger();
     void init(const std::string& strFile, ELogLevel eLevel, bool bAsync = false, size_t threadNum = 2);
     ELogLevel getLevel() const { return m_eLevel; }
-
     void log(const std::string& str);
 
 private:
@@ -71,7 +101,7 @@ private:
 
     std::string m_strFile;
     ELogLevel m_eLevel;
-    AppendFile::ptr m_ptrAppendFile;
+    Appender::ptr m_ptrAppender;
 };   
 
 class LogStream
@@ -92,5 +122,7 @@ private:
     std::ostringstream m_ostringstream;
 };
  
+static inline std::string getLogLevelName(ELogLevel eLevel);
+
 } // namespace cpp
 

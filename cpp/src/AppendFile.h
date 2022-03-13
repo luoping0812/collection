@@ -26,7 +26,7 @@ public:
     void flush();
 
     template<typename T>
-    AppendFile& append(T& val)
+    AppendFile& append(const T& val)
     {
         std::lock_guard<std::recursive_mutex> lock(m_mutex);
         assert(m_fstream.is_open());
@@ -36,7 +36,7 @@ public:
     }
 
     template<typename T>
-    AppendFile& operator<<(T& val)
+    AppendFile& operator<<(const T& val)
     {
         return append(val);
     }
