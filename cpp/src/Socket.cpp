@@ -1,25 +1,16 @@
 #include "Socket.h"
-#include "Log.h"
+#include "Macro.h"
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <string.h>
+#include <fcntl.h>
 
 namespace cpp
 {
 
 namespace net
 {
-
-#define handle_error(condition, retTrue, retFalse) \
-    if (!(condition)) \
-    { \
-        LOG_FMT_ERROR("%s error, errno: %d, errmsg: %s.", __FUNCTION__, errno, strerror(errno)); \
-        return retFalse; \
-    } \
-    return retTrue;
-
 
 Socket::Socket(int family, int type, int protocol)
     : m_family(family)
@@ -145,6 +136,13 @@ bool Socket::setOption(int level, int option, const void* optval, socklen_t len)
 bool Socket::getOption(int level, int option, void* optval, socklen_t* len)
 {
     handle_error(0 == getsockopt(m_sock, level, option, optval, len), true, false);
+}
+
+bool Socket::setNonBlocking()
+{
+    int flags = ::fcntl(m_sock, F_GETFL, 0);
+    flags |= O_NONBLOCK;
+    int ret = ::fcntl(m_sock, F_SETFL, flags);
 }
 
 IPAddress::ptr Socket::getLocalAddress()

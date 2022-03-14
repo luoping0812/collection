@@ -90,15 +90,15 @@ public:
 class Logger : public Singleton<Logger>
 {
 public:
-    Logger();
+    Logger() {}
     void init(const std::string& strFile, ELogLevel eLevel, bool bAsync = false, size_t threadNum = 2);
     ELogLevel getLevel() const { return m_eLevel; }
     void log(const std::string& str);
 
 private:
+    std::mutex m_mutex;
     bool m_bAsync;
     ThreadPool::ptr m_ptrThreads;
-
     std::string m_strFile;
     ELogLevel m_eLevel;
     Appender::ptr m_ptrAppender;

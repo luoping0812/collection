@@ -17,6 +17,7 @@ set(src_list
         src/Socket.cpp
         src/System.cpp
         src/Endian.cpp
+        src/Epoll.cpp
 )
 #aux_source_directory(src src)
 
@@ -27,7 +28,9 @@ find_library(libs pthread)
 add_executable(test_log ./test/test_log ${src_list})
 add_executable(test_server ./test/test_server ${src_list})
 add_executable(test_client ./test/test_client ${src_list})
+add_executable(test_epoll ./test/test_epoll ${src_list})
 
 target_link_libraries(test_log ${libs})
 target_link_libraries(test_server ${libs})
 target_link_libraries(test_client ${libs})
+target_link_libraries(test_epoll ${libs})

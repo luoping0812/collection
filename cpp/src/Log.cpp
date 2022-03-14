@@ -32,42 +32,32 @@ void StdoutAppender::append(const std::string& str)
     std::cout.flush();
 }
 
-
-Logger::Logger()
-    : m_strFile(TimeTool::getCurrentDateTime() + ".log")
-    , m_eLevel(ELogLevel::LOG_LEVEL_INFO)
-    , m_bAsync(false)
-{
-
-}
-
 void Logger::init(const std::string& strFile, ELogLevel eLevel, bool bAsync, size_t threadNum)
 {
+    std::unique_lock<std::mutex> lock(m_mutex);
     m_bAsync = bAsync;
     if (m_bAsync)
     {
         m_ptrThreads = std::make_shared<ThreadPool>(threadNum); 
     }
 
+    m_ptrAppender = std::make_shared<StdoutAppender>(m_strFile);
     m_strFile = strFile;
     m_eLevel = eLevel;
 }
 
 void Logger::log(const std::string& str)
 {
-    if (!m_ptrAppender)
-    {
-        m_ptrAppender = std::make_shared<StdoutAppender>(m_strFile);
-    }
-
     if (m_bAsync)
     {
         m_ptrThreads->push([this, str](){
+            std::unique_lock<std::mutex> lock(m_mutex);
             m_ptrAppender->append(str);
         });
     }
     else
     {
+        std::unique_lock<std::mutex> lock(m_mutex);
         m_ptrAppender->append(str);
     }
 }
@@ -112,13 +102,11 @@ void LogStream::format(const char* fmt, ...)
 std::string getLogLevelName(ELogLevel eLevel)
 {
     std::stringstream os;
-    os << "[";
     switch (eLevel)
     {
 #define XX(str) \
     case ELogLevel::LOG_LEVEL_##str: \
-        os << #str; \
-        break;
+        return "[" #str "]";
 
         XX(TRACE)
         XX(DEBUG)
@@ -126,9 +114,8 @@ std::string getLogLevelName(ELogLevel eLevel)
         XX(WARN)
         XX(ERROR)
     }
-    os << "]";
 
-    return os.str(); 
+    return ""; 
 }
 
 } // namespace cpp

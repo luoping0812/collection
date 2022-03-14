@@ -38,12 +38,15 @@ public:
     bool setOption(int level, int option, const void* result, socklen_t len);
     bool getOption(int level, int option, void* result, socklen_t* len);
 
+    bool setNonBlocking();
+
     IPAddress::ptr getLocalAddress();
     IPAddress::ptr getPeerAddress();
 
     int getFamily() { return m_family; }
     int getType() { return m_type; }
     int getProtocol() { return m_protocol; }
+    int getSocket() { return m_sock; }
 
 private:
     int m_family;
