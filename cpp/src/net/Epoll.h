@@ -20,7 +20,7 @@ class Epoll
 public:
     using ptr = std::shared_ptr<Epoll>;
 
-    Epoll(uint32_t nMaxEvents = 1000);
+    Epoll(int nMaxEvents = 1000);
     
     ~Epoll();
 
@@ -33,7 +33,7 @@ public:
 
 private:
     int m_epollFd;
-    uint32_t m_nMaxEvents;
+    int m_nMaxEvents;
     struct epoll_event* m_ptrEvents;
 };
 
