@@ -143,6 +143,7 @@ bool Socket::setNonBlocking()
     int flags = ::fcntl(m_sock, F_GETFL, 0);
     flags |= O_NONBLOCK;
     int ret = ::fcntl(m_sock, F_SETFL, flags);
+    return ret;
 }
 
 IPAddress::ptr Socket::getLocalAddress()
