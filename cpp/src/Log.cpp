@@ -77,8 +77,7 @@ LogStream::LogStream(ELogLevel eLevel, const std::string& strTime, const std::st
     static const char* spliter = " ";
     m_ostringstream << strTime << spliter;
     m_ostringstream << getLogLevelName(eLevel) << spliter;
-    m_ostringstream << "[" << strFile << ":" << nLine <<"]" << spliter;
-    m_ostringstream << "[" << strFunc << "]" << spliter;
+    m_ostringstream << "[" << strFile << ":" << strFunc << ":" << nLine <<"]" << spliter;
 }
 
 LogStream::~LogStream()

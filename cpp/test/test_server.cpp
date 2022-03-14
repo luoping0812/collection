@@ -14,34 +14,38 @@ using namespace cpp::net;
 int main(int argc, char const *argv[])
 {
     cpp::Logger::instance()->init("test_server.log", LLV_INFO, false, 4);
-    int sock = Socket::createSocket(AF_INET, SOCK_STREAM, 0);
-    if (sock == -1)
+    Socket::ptr ptrSock = std::make_shared<Socket>(AF_INET, SOCK_STREAM, 0);
+    if (!ptrSock->init())
     {
-        LOG_INFO() << "create socket error";
         return -1;
     }
-
-    Socket::ptr ptrSock = std::make_shared<Socket>(sock);
     IPAddress::ptr ptrAddr = std::make_shared<IPv4Address>(8000);
     ptrSock->bind(ptrAddr);
     ptrSock->listen();
     
-    IPAddress::ptr clientAddr = std::make_shared<IPv4Address>(); 
+    IPAddress::ptr clientAddr;
     Socket::ptr ptrClient = ptrSock->accept(clientAddr);
-    if (nullptr != ptrClient)
+    if (nullptr != ptrClient && nullptr != clientAddr)
     {
         LOG_FMT_INFO("client %s connected.", clientAddr->getIpPort().c_str()); 
+    }
+    else
+    {
+        LOG_ERROR() << "accept error";
     }
     
     char buf[128];
     while (true)
     {
         memZero(buf, sizeof(buf));
-        if (!ptrClient->recv(buf, sizeof(buf)))
+        //int ret = ptrClient->recv(buf, sizeof(buf));
+        int ret = ptrClient->read(buf, sizeof(buf));
+        if (ret <= 0)
         {
+            LOG_FMT_INFO("recv client %s error, errno: %d, errmsg: %s", clientAddr->getIpPort().c_str(), errno, strerror(errno));
             break;
         }
-        LOG_FMT_INFO("recv client %s msg: %s", ptrAddr->getIpPort().c_str(), buf); 
+        LOG_FMT_INFO("recv client %s msg: %s, size: %d", clientAddr->getIpPort().c_str(), buf, ret); 
     }
 
     ptrClient->close();

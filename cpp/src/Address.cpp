@@ -45,7 +45,7 @@ IPv4Address::IPv4Address()
     m_addr.sin_family = AF_INET;
 }
 
-IPv4Address::IPv4Address(struct sockaddr_in& addr)
+IPv4Address::IPv4Address(const struct sockaddr_in& addr)
 {
     m_addr = addr;
 }
@@ -97,7 +97,7 @@ socklen_t IPv4Address::getSockAddrLen() const
     return (socklen_t)(sizeof(m_addr));
 }
  
-IPv6Address::IPv6Address(struct sockaddr_in6& addr)
+IPv6Address::IPv6Address(const struct sockaddr_in6& addr)
 {
     m_addr = addr;
 }
