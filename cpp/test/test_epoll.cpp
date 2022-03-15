@@ -19,19 +19,10 @@ int main(int argc, char const *argv[])
     EventLoop::ptr eventLoop = std::make_shared<EventLoop>();
     IPAddress::ptr addr = std::make_shared<IPv4Address>(8000);
     TcpServer::ptr ptrServer = std::make_shared<TcpServer>(eventLoop, ptrSock, addr);
-    ptrServer->setHandEventCB([](Socket::ptr ptrSock){
-        char buf[128];
-        while (true)
-        {
-            memZero(buf, sizeof(buf));
-            int ret = ptrSock->read(buf, sizeof(buf));
-            if (ret <= 0)
-            {
-                LOG_FMT_INFO("recv client %s error, errno: %d, errmsg: %s, ret = %d", ptrSock->getPeerAddress()->getIpPort().c_str(), errno, strerror(errno), ret);
-                break;
-            }
-            LOG_FMT_INFO("recv client %s msg: %s, size: %d", ptrSock->getPeerAddress()->getIpPort().c_str(), buf, ret); 
-        }
+    ptrServer->setHandEventCB([](Connection::ptr ptrCon){
+            std::string msg;
+            ptrCon->read(msg); 
+            LOG_FMT_INFO("recv client %s msg: %s, size: %d", ptrCon->getPeerAddress()->getIpPort().c_str(), msg.c_str(), msg.size()); 
     });
 
     eventLoop->loop();

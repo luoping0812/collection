@@ -21,8 +21,8 @@ public:
 
     void loop();
 
-    void updateChannel(Channel* ptrChannel);
-    void deleteeChannel(Channel* ptrChannel);
+    void updateChannel(Channel::ptr ptrChannel);
+    void deleteeChannel(Channel::ptr ptrChannel);
 
 private:
     bool m_bQuit;

@@ -23,6 +23,7 @@ public:
     static int createSocket(int family, int type, int protocol);
 
     explicit Socket(int family, int type, int protocol);
+    ~Socket();
     bool init();
     bool init(int sock);
     bool bind(const IPAddress::ptr ptrAddr);

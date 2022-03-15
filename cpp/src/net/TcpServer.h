@@ -6,9 +6,11 @@
 #include "EventLoop.h"
 #include "Address.h"
 #include "Socket.h"
+#include "Connection.h"
 
 #include <memory>
 #include <functional>
+#include <unordered_map>
 
 namespace cpp
 {
@@ -23,16 +25,18 @@ public:
 
     TcpServer(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::ptr ptrAddr);
 
-    void setHandEventCB(std::function<void(Socket::ptr)> cb);
-
-    void handleEvent(Socket::ptr ptrSock);
-
     void onNewConnection(Socket::ptr ptrSock);
+
+    void setHandEventCB(std::function<void(Connection::ptr)> cb);
+
+    void handleEvent(Connection::ptr ptrCon);
+
 
 private:
     Acceptor::ptr m_ptrAcceptor;
     EventLoop::ptr m_ptrEventLoop;
-    std::function<void(Socket::ptr )> m_cb;
+    std::function<void(Connection::ptr)> m_cb;
+    std::unordered_map<int, Connection::ptr> m_mapFd2Connection;
 };
     
 } // namespace net

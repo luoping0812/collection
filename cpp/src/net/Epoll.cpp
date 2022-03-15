@@ -32,47 +32,52 @@ bool Epoll::init()
     handle_error(-1 != (m_epollFd = ::epoll_create1(0)), true, false);
 }
     
-void Epoll::updateChannel(Channel* ptrChannel)
+void Epoll::updateChannel(Channel::ptr ptrChannel)
 {
     int sockfd = ptrChannel->getSocketPtr()->getSocket();
     struct epoll_event ev;
-    ev.data.ptr = ptrChannel;
-    ev.data.fd = sockfd;
-
-    if (ptrChannel->getListenEvent() & EPOLLIN)
-    {
-        ev.events |= EPOLLIN;
-    }
-
-    if (ptrChannel->getListenEvent() & EPOLLOUT)
-    {
-        ev.events |= EPOLLOUT;
-    }
-
-    if (ptrChannel->getListenEvent() & EPOLLET)
-    {
-        ev.events |= EPOLLET;
-    }
-
+    memZero(&ev, sizeof(struct epoll_event));
+    LOG_INFO() << ptrChannel.get();
+    ev.data.ptr = ptrChannel.get();
+    //ev.data.fd = sockfd;
+    ev.events = ptrChannel->getListenEvent();
     if (!ptrChannel->isExist())
     {
-        ::epoll_ctl(m_epollFd, EPOLL_CTL_ADD, sockfd, &ev);
+        int ret = ::epoll_ctl(m_epollFd, EPOLL_CTL_ADD, sockfd, &ev);
+        if (-1 == ret)
+        {
+            LOG_FMT_INFO("epoll add error, errno: %d, errmsg: %s", errno, strerror(errno));
+            return;
+        }
         ptrChannel->setExist(true);
     }
     else
     {
-        ::epoll_ctl(m_epollFd, EPOLL_CTL_MOD, sockfd, &ev);
+        int ret =::epoll_ctl(m_epollFd, EPOLL_CTL_MOD, sockfd, &ev);
+        if (-1 == ret)
+        {
+            LOG_FMT_INFO("epoll mod error, errno: %d, errmsg: %s", errno, strerror(errno));
+            return;
+        }
     }
+
+    LOG_INFO() << "update epoll event success.";
 }
 
-void Epoll::deleteChannel(Channel* ptrChannel)
+void Epoll::deleteChannel(Channel::ptr ptrChannel)
 {
     int sockfd = ptrChannel->getSocketPtr()->getSocket();
     struct epoll_event ev;
-    ev.data.ptr = ptrChannel;
-    ev.data.fd = sockfd;
-    ::epoll_ctl(m_epollFd, EPOLL_CTL_DEL, sockfd, &ev);
+    ev.data.ptr = ptrChannel.get();
+    //ev.data.fd = sockfd;
+    int ret = ::epoll_ctl(m_epollFd, EPOLL_CTL_DEL, sockfd, &ev);
+    if (-1 == ret)
+    {
+        LOG_FMT_INFO("epoll del error, errno: %d, errmsg: %s", errno, strerror(errno));
+        return;
+    }
     ptrChannel->setExist(false);
+    LOG_INFO() << "del epoll event success.";
 }
 
 std::vector<Channel*> Epoll::poll(int timeout)

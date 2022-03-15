@@ -6,6 +6,7 @@
 #include "Socket.h" 
 #include "EventLoop.h"
 #include "Callback.h"
+#include "Channel.h"
 
 #include <memory>
 #include <string>
@@ -16,7 +17,7 @@ namespace cpp
 namespace net
 {
 
-class Acceptor
+class Acceptor : public std::enable_shared_from_this<Acceptor>
 {
 public:
     using ptr = std::shared_ptr<Acceptor>;
@@ -24,12 +25,11 @@ public:
     Acceptor(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::ptr ptrAddr);
 
     void setNewConnectionCB(newConnectionCB_t cb);
-    void handleNewConnectionCB(Socket::ptr ptrSock);
-
-
+    void handleEvent();
 
 private:
     Socket::ptr m_ptrSock;
+    Channel::ptr m_ptrChannel;
     EventLoop::ptr m_ptrEventLoop;
     newConnectionCB_t m_newConnectionCB;
 };

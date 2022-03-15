@@ -26,15 +26,15 @@ public:
 
     bool init();
 
-    void updateChannel(Channel* ptrChannel);
-    void deleteChannel(Channel* ptrChannel);
+    void updateChannel(Channel::ptr ptrChannel);
+    void deleteChannel(Channel::ptr ptrChannel);
 
     std::vector<Channel*> poll(int timeout = -1);
 
 private:
     int m_epollFd;
     int m_nMaxEvents;
-    struct epoll_event* m_ptrEvents;
+    struct epoll_event *m_ptrEvents;
 };
 
     

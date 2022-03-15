@@ -18,6 +18,17 @@ Socket::Socket(int family, int type, int protocol)
     , m_protocol(protocol)
 {
 
+    LOG_INFO() << "Socket::Socket()";
+
+}
+
+Socket::~Socket()
+{
+    if (-1 != m_sock)
+    {
+        close();
+    }
+    LOG_INFO() << "Socket::~Socket()";
 }
 
 int Socket::createSocket(int family, int type, int protocol)

@@ -21,6 +21,7 @@ set(src_list
         src/net/Endian.cpp
         src/net/Epoll.cpp
         src/net/Acceptor.cpp
+        src/net/Connection.cpp
         src/net/Channel.cpp
         src/net/EventLoop.cpp
         src/net/TcpServer.cpp

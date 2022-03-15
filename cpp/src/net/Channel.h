@@ -14,22 +14,24 @@ namespace cpp
 namespace net
 {
 
-class Channel
+class Channel : public std::enable_shared_from_this<Channel>
 {
 public:
     using ptr = std::shared_ptr<Channel>;
 
     Channel(Socket::ptr ptrSock);
 
+    ~Channel();
+
     Socket::ptr getSocketPtr();
 
     void handleEvent();
 
-    void setEventCallback(newConnectionCB_t cb);
+    void setEventCallback(std::function<void()> cb);
 
-    void addListenEvent(int event);
+    void addListenEvent(uint32_t event);
 
-    int getListenEvent() { return m_nListenEvent; }
+    uint32_t getListenEvent() { return m_nListenEvent; }
 
     bool isExist() { return m_bExist; }
 
@@ -37,10 +39,9 @@ public:
 
 private:
     Socket::ptr m_ptrSock;
-    newConnectionCB_t m_cb;
-
-    int m_nListenEvent;
-
+    std::function<void()> m_cb;
+    uint32_t m_nListenEvent;
+    uint32_t m_nRedingEvent;
     bool m_bExist;
 };
 

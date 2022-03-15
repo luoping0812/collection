@@ -12,39 +12,25 @@ TcpServer::TcpServer(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress
     : m_ptrEventLoop(ptrEventLoop)
     , m_ptrAcceptor(std::make_shared<Acceptor>(ptrEventLoop, ptrSock, ptrAddr))
 {
-
     m_ptrAcceptor->setNewConnectionCB(std::bind(&TcpServer::onNewConnection, this, std::placeholders::_1));
-
 }
 
 
-void TcpServer::onNewConnection(Socket::ptr ptrSock)
+void TcpServer::onNewConnection(Socket::ptr clientSock)
 {
-    IPAddress::ptr addr;
-    Socket::ptr clientSock = ptrSock->accept(addr);
-    if (!clientSock)
-    {
-        LOG_INFO() << "socket accept errro";
-        return;
-    }
-
-    LOG_FMT_INFO("new client %s connected.", addr->getIpPort().c_str()); 
-
-    clientSock->setNonBlocking();
-    Channel* ptrChannel = new Channel(clientSock);
-    ptrChannel->addListenEvent(EPOLLIN | EPOLLET);
-    ptrChannel->setEventCallback(std::bind(&TcpServer::handleEvent, shared_from_this(), std::placeholders::_1));
-    m_ptrEventLoop->updateChannel(ptrChannel);
+    Connection::ptr ptrCon = std::make_shared<Connection>(m_ptrEventLoop, clientSock);
+    ptrCon->setHandleEventCB(std::bind(&TcpServer::handleEvent, this, std::placeholders::_1));
+    m_mapFd2Connection.insert(std::make_pair(clientSock->getSocket(), ptrCon));
 }
 
-void TcpServer::setHandEventCB(std::function<void(Socket::ptr)> cb)
+void TcpServer::setHandEventCB(std::function<void(Connection::ptr)> cb)
 {
     m_cb = cb;
 }
 
-void TcpServer::handleEvent(Socket::ptr ptrSock)
+void TcpServer::handleEvent(Connection::ptr ptrCon)
 {
-    m_cb(ptrSock);
+    m_cb(ptrCon);
 }
 
 } // namespace net

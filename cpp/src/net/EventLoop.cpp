@@ -7,6 +7,7 @@ namespace net
 {
 
 EventLoop::EventLoop()
+    : m_bQuit(false)
 {
     m_ptrEpoll = std::make_shared<Epoll>();
     m_ptrEpoll->init();
@@ -24,12 +25,12 @@ void EventLoop::loop()
     }
 }
     
-void EventLoop::updateChannel(Channel* ptrChannel)
+void EventLoop::updateChannel(Channel::ptr ptrChannel)
 {
     m_ptrEpoll->updateChannel(ptrChannel);
 }
 
-void EventLoop::deleteeChannel(Channel* ptrChannel)
+void EventLoop::deleteeChannel(Channel::ptr ptrChannel)
 {
     m_ptrEpoll->deleteChannel(ptrChannel);
 }
