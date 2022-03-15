@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SYSTEM_H
+#define SYSTEM_H
+
 
 #include <string>
 
@@ -14,3 +16,5 @@ void memZero(void* buf, size_t size);
 
     
 } // namespace cpp
+
+#endif

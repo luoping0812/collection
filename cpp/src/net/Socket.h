@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SOCKET_H
+#define SOCKET_H
+
 
 #include "Noncopyable.h"
 #include "Address.h"
@@ -60,3 +62,6 @@ private:
 
     
 } // namespace cpp
+
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LOG_H
+#define LOG_H
+
 
 #include "Singleton.hpp"
 #include "TimeTool.h"
@@ -126,3 +128,5 @@ static inline std::string getLogLevelName(ELogLevel eLevel);
 
 } // namespace cpp
 
+
+#endif

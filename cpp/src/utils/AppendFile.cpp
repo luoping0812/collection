@@ -1,5 +1,3 @@
-#pragma once
-
 #include "AppendFile.h"
 
 namespace cpp

@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef APPENDFILE_H
+#define APPENDFILE_H
 
 #include <fstream> 
 #include <mutex>
@@ -47,3 +48,5 @@ private:
 };
     
 } // namespace cpp
+
+#endif

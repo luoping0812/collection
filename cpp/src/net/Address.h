@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ADDRESS_H
+#define ADDRESS_H
+
 
 #include <memory>
 #include <string>
@@ -77,3 +79,4 @@ private:
 
 } // namespace cpp
 
+#endif

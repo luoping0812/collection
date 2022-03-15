@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TIMETOOL_H
+#define TIMETOOL_H
+
 
 #include <string>
 
@@ -14,3 +16,5 @@ public:
 };
    
 } // namespace cpp
+
+#endif

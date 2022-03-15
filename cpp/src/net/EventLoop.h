@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef EVENTLOOP_H
+#define EVENTLOOP_H
 
 #include "Epoll.h"
 
@@ -30,3 +32,6 @@ private:
 } // namespace net
 
 } // namespace cpp
+
+
+#endif

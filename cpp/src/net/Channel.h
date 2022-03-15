@@ -1,4 +1,7 @@
-#pragma once
+#ifndef CHANNEL_H
+#define CHANNEL_H
+
+
 
 #include "Socket.h"
 #include "Callback.h"
@@ -24,7 +27,7 @@ public:
 
     void setEventCallback(newConnectionCB_t cb);
 
-    bool addListenEvent(int event);
+    void addListenEvent(int event);
 
     int getListenEvent() { return m_nListenEvent; }
 
@@ -45,3 +48,5 @@ private:
 } // namespace net
 
 } // namespace cpp
+
+#endif

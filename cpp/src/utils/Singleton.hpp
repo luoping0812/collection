@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SINGLETON_H
+#define SINGLETON_H
+
 
 namespace cpp
 {
@@ -16,3 +18,5 @@ public:
 };
 
 } // namespace cpp
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NONCOPYABLE_H
+#define NONCOPYABLE_H
 
 namespace cpp
 {
@@ -15,3 +16,6 @@ private:
 };
     
 } // namespace cpp
+
+
+#endif

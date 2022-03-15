@@ -1,5 +1,6 @@
 
-#pragma once
+#ifndef ENDIAN_H
+#define ENDIAN_H
 
 #include <stdint.h>
 
@@ -26,3 +27,6 @@ public:
 
 
 } // namespace cpp
+
+
+#endif

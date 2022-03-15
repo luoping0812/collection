@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FILETOOL_H
+#define FILETOOL_H
+
 
 #include <string>
 
@@ -13,3 +15,5 @@ public:
 };
 
 }
+
+#endif

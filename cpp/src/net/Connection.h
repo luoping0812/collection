@@ -1,4 +1,7 @@
-#pragma once
+#ifndef CONNECTION_H
+#define CONNECTION_H
+
+
 
 #include <memory>
 
@@ -27,3 +30,4 @@ private:
 
 
 
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TCPSERVER_H
+#define TCPSERVER_H
+
 
 #include "Acceptor.h"
 #include "EventLoop.h"
@@ -36,3 +38,6 @@ private:
 } // namespace net
     
 } // namespace cpp
+
+
+#endif

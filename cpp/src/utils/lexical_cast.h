@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LEXICAL_CAST_H
+#define LEXICAL_CAST_H
+
 
 #include <type_traits>
 #include <string>
@@ -180,3 +182,5 @@ typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(co
 {
     return from;
 }
+
+#endif

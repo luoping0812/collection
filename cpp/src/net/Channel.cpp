@@ -29,7 +29,7 @@ void Channel::handleEvent()
     m_cb(m_ptrSock);
 }
 
-bool Channel::addListenEvent(int event)
+void Channel::addListenEvent(int event)
 {
     m_nListenEvent |= event; 
 }

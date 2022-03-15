@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MACRO_H
+#define MACRO_H
+
 
 #include "Log.h"
 
@@ -17,3 +19,5 @@ namespace cpp
 
 
 } // namespace cpp
+
+#endif

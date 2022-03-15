@@ -1,4 +1,6 @@
-#pragma once
+#ifndef THREADPOOL_H
+#define THREADPOOL_H
+
 
 #include <queue>
 #include <vector>
@@ -53,3 +55,5 @@ private:
 };
     
 } // namespace cpp
+
+#endif

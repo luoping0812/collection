@@ -1,5 +1,5 @@
-
-#pragma once
+#ifndef EPOLL_H
+#define EPOLL_H
 
 #include "Socket.h"
 #include "Channel.h"
@@ -42,3 +42,5 @@ private:
 
     
 } // namespace cpp
+
+#endif

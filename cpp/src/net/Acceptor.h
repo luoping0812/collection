@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef ACCEPTOR_H
+#define ACCEPTOR_H
 
 #include "Address.h"
 #include "Socket.h" 
@@ -37,3 +39,5 @@ private:
 
     
 } // namespace cpp
+
+#endif
