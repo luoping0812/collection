@@ -116,7 +116,7 @@ std::string getLogLevelName(ELogLevel eLevel)
         XX(ERROR)
     }
 
-    return ""; 
+    return "[]"; 
 }
 
 } // namespace cpp

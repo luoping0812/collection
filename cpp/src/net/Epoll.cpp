@@ -13,6 +13,7 @@ namespace net
 Epoll::Epoll(int nMaxEvents)
     : m_nMaxEvents(nMaxEvents)
 {
+    LOG_DEBUG();
 }
 
 Epoll::~Epoll()
@@ -23,13 +24,19 @@ Epoll::~Epoll()
         m_epollFd = -1;
         delete[] m_ptrEvents;
     }
+    LOG_DEBUG();
 }
 
 bool Epoll::init()
 {
     m_ptrEvents = new epoll_event[m_nMaxEvents];
     memZero(m_ptrEvents, sizeof(struct epoll_event) * m_nMaxEvents);
-    handle_error(-1 != (m_epollFd = ::epoll_create1(0)), true, false);
+    m_epollFd = ::epoll_create1(0);
+    if (m_epollFd < 0)
+    {
+        return false; 
+    }
+    return true;
 }
     
 void Epoll::updateChannel(Channel::ptr ptrChannel)
@@ -37,7 +44,6 @@ void Epoll::updateChannel(Channel::ptr ptrChannel)
     int sockfd = ptrChannel->getSocketPtr()->getSocket();
     struct epoll_event ev;
     memZero(&ev, sizeof(struct epoll_event));
-    LOG_INFO() << ptrChannel.get();
     ev.data.ptr = ptrChannel.get();
     //ev.data.fd = sockfd;
     ev.events = ptrChannel->getListenEvent();
@@ -46,7 +52,7 @@ void Epoll::updateChannel(Channel::ptr ptrChannel)
         int ret = ::epoll_ctl(m_epollFd, EPOLL_CTL_ADD, sockfd, &ev);
         if (-1 == ret)
         {
-            LOG_FMT_INFO("epoll add error, errno: %d, errmsg: %s", errno, strerror(errno));
+            handle_error();
             return;
         }
         ptrChannel->setExist(true);
@@ -56,7 +62,7 @@ void Epoll::updateChannel(Channel::ptr ptrChannel)
         int ret =::epoll_ctl(m_epollFd, EPOLL_CTL_MOD, sockfd, &ev);
         if (-1 == ret)
         {
-            LOG_FMT_INFO("epoll mod error, errno: %d, errmsg: %s", errno, strerror(errno));
+            handle_error();
             return;
         }
     }
@@ -73,7 +79,7 @@ void Epoll::deleteChannel(Channel::ptr ptrChannel)
     int ret = ::epoll_ctl(m_epollFd, EPOLL_CTL_DEL, sockfd, &ev);
     if (-1 == ret)
     {
-        LOG_FMT_INFO("epoll del error, errno: %d, errmsg: %s", errno, strerror(errno));
+        handle_error(); 
         return;
     }
     ptrChannel->setExist(false);
@@ -86,7 +92,7 @@ std::vector<Channel*> Epoll::poll(int timeout)
     int nfds = ::epoll_wait(m_epollFd, m_ptrEvents, m_nMaxEvents, timeout);
     if (-1 == nfds)
     {
-        LOG_FMT_INFO("epoll wait error, errno: %d, errmsg: %s", errno, strerror(errno));
+        handle_error(); 
         return vecChannel;
     }
 

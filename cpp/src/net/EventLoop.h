@@ -18,6 +18,7 @@ public:
     using ptr = std::shared_ptr<EventLoop>;
 
     EventLoop();
+    ~EventLoop();
 
     void loop();
 

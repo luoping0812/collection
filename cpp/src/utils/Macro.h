@@ -4,19 +4,15 @@
 
 #include "Log.h"
 
+#include <exception>
+#include <string>
 #include <string.h>
 
 namespace cpp
 {
     
-#define handle_error(condition, retTrue, retFalse) \
-    if (!(condition)) \
-    { \
-        LOG_FMT_ERROR("%s error, errno: %d, errmsg: %s.", __FUNCTION__, errno, strerror(errno)); \
-        return retFalse; \
-    } \
-    return retTrue;
-
+#define handle_error() \
+            LOG_FMT_ERROR("%s error, errno: %d, errmsg: %s.", __FUNCTION__, errno, strerror(errno));
 
 } // namespace cpp
 

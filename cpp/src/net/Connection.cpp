@@ -19,8 +19,15 @@ Connection::Connection(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddre
     m_ptrChannel->addListenEvent(EPOLLIN | EPOLLET);
     m_ptrChannel->setEventCallback(std::bind(&Connection::handleEvent, this));
     m_ptrEventLoop->updateChannel(m_ptrChannel);
+
+    LOG_DEBUG();
 }
 
+
+Connection::~Connection()
+{
+    LOG_DEBUG();
+}
 
 void Connection::handleEvent()
 {
@@ -54,15 +61,9 @@ void Connection::handleEvent()
         }
     }
 
-
-    m_cb(shared_from_this());    
+    m_handCB(shared_from_this());    
 }
-    
-void Connection::setHandleEventCB(std::function<void(Connection::ptr)> cb)
-{
-    m_cb = cb;
-}
-
+   
 void Connection::read(std::string& str)
 {
     str = m_strReadBuffer;
@@ -72,6 +73,11 @@ void Connection::read(std::string& str)
 void Connection::write(const std::string& str)
 {
     m_strWriteBuffer.append(str);
+}
+
+void Connection::close()
+{
+    m_delCB(m_ptrSock);
 }
 
 IPAddress::ptr Connection::getPeerAddress()

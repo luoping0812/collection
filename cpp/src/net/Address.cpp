@@ -1,8 +1,8 @@
 #include "Address.h"
-
 #include "System.h"
 #include "LexicalCast.h"
 #include "Endian.h"
+#include "Log.h"
 
 #include <arpa/inet.h>
 
@@ -43,11 +43,13 @@ IPv4Address::IPv4Address()
 {
     memZero(&m_addr, sizeof(m_addr));
     m_addr.sin_family = AF_INET;
+    LOG_DEBUG();
 }
 
 IPv4Address::IPv4Address(const struct sockaddr_in& addr)
 {
     m_addr = addr;
+    LOG_DEBUG();
 }
 
 IPv4Address::IPv4Address(const std::string& strIp, const uint16_t nPort)
@@ -56,6 +58,7 @@ IPv4Address::IPv4Address(const std::string& strIp, const uint16_t nPort)
     m_addr.sin_family = AF_INET;
     ::inet_pton(AF_INET, strIp.c_str(), &(m_addr.sin_addr));
     m_addr.sin_port = Endian::hton(nPort);
+    LOG_DEBUG();
 }
 
 IPv4Address::IPv4Address(const uint16_t nPort, bool bLoopBackOnly)
@@ -64,6 +67,12 @@ IPv4Address::IPv4Address(const uint16_t nPort, bool bLoopBackOnly)
     m_addr.sin_family = AF_INET;
     m_addr.sin_addr.s_addr = Endian::hton(bLoopBackOnly ? INADDR_LOOPBACK : INADDR_ANY);
     m_addr.sin_port = Endian::hton(nPort);
+    LOG_DEBUG();
+}
+
+IPv4Address::~IPv4Address()
+{
+    LOG_DEBUG();
 }
 
 std::string IPv4Address::getIp() const
@@ -100,12 +109,14 @@ socklen_t IPv4Address::getSockAddrLen() const
 IPv6Address::IPv6Address(const struct sockaddr_in6& addr)
 {
     m_addr = addr;
+    LOG_DEBUG();
 }
 
 IPv6Address::IPv6Address()
 {
     memZero(&m_addr, sizeof(m_addr));
     m_addr.sin6_family = AF_INET6;
+    LOG_DEBUG();
 }
 
 IPv6Address::IPv6Address(const std::string& strIp, const uint16_t nPort)
@@ -114,6 +125,7 @@ IPv6Address::IPv6Address(const std::string& strIp, const uint16_t nPort)
     m_addr.sin6_family = AF_INET6;
     ::inet_pton(AF_INET6, strIp.c_str(), &(m_addr.sin6_addr));
     m_addr.sin6_port = Endian::hton(nPort);
+    LOG_DEBUG();
 }
 
 IPv6Address::IPv6Address(const uint16_t nPort, bool bLoopBackOnly)
@@ -122,6 +134,12 @@ IPv6Address::IPv6Address(const uint16_t nPort, bool bLoopBackOnly)
     m_addr.sin6_family = AF_INET6;
     m_addr.sin6_addr = bLoopBackOnly ? in6addr_loopback : in6addr_any;
     m_addr.sin6_port = Endian::hton(nPort);
+    LOG_DEBUG();
+}
+
+IPv6Address::~IPv6Address()
+{
+    LOG_DEBUG();
 }
 
 std::string IPv6Address::getIp() const

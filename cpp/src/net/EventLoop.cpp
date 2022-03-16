@@ -1,4 +1,5 @@
 #include "EventLoop.h"
+#include "Log.h"
 
 namespace cpp
 {
@@ -11,7 +12,14 @@ EventLoop::EventLoop()
 {
     m_ptrEpoll = std::make_shared<Epoll>();
     m_ptrEpoll->init();
+    LOG_DEBUG();
 }
+
+EventLoop::~EventLoop()
+{
+    LOG_DEBUG();
+}
+
 
 void EventLoop::loop()
 {

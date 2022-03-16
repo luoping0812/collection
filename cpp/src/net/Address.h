@@ -42,6 +42,8 @@ public:
     explicit IPv4Address(const uint16_t nPort, bool bLoopBackOnly = false);
     explicit IPv4Address(const struct sockaddr_in& addr);
 
+    ~IPv4Address();
+
     virtual std::string getIp() const override;
     virtual uint16_t getPort() const override;
     virtual std::string getIpPort() const override;
@@ -62,6 +64,7 @@ public:
     explicit IPv6Address(const std::string& strIp, const uint16_t nPort);
     explicit IPv6Address(const uint16_t nPort, bool bLoopBackOnly = false);
     explicit IPv6Address(const struct sockaddr_in6& addr);
+    ~IPv6Address();
 
     virtual std::string getIp() const override;
     virtual uint16_t getPort() const override;

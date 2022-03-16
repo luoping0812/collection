@@ -26,8 +26,10 @@ public:
     using ptr = std::shared_ptr<TcpServer>;
 
     TcpServer(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::ptr ptrAddr);
+    ~TcpServer();
 
-    void onNewConnection(Socket::ptr ptrSock);
+    void onNewConnection(Socket::ptr clientSock);
+    void onDeleteConnection(Socket::ptr clientSock);
 
     void setHandEventCB(std::function<void(Connection::ptr)> cb);
 
@@ -36,10 +38,9 @@ public:
 
 private:
     Acceptor::ptr m_ptrAcceptor;
-    EventLoop::ptr m_ptrMainReactor;
+    std::unordered_map<int, Connection::ptr> m_mapFd2Connection;
     std::vector<EventLoop::ptr> m_vecSubReactor;
     std::function<void(Connection::ptr)> m_cb;
-    std::unordered_map<int, Connection::ptr> m_mapFd2Connection;
     ThreadPool::ptr m_ptrThreads;
 };
     

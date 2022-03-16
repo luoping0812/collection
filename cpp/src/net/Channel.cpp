@@ -12,12 +12,12 @@ Channel::Channel(Socket::ptr ptrSock)
     , m_nListenEvent(0)
     , m_bExist(false)
 {
-    LOG_INFO() << "Channel::Channel()";
+    LOG_DEBUG();
 }
 
 Channel::~Channel()
 {
-    LOG_INFO() << "Channel::~Channel()";
+    LOG_DEBUG();
 }
 
 Socket::ptr Channel::getSocketPtr()

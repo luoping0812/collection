@@ -18,7 +18,7 @@ Socket::Socket(int family, int type, int protocol)
     , m_protocol(protocol)
 {
 
-    LOG_INFO() << "Socket::Socket()";
+    LOG_DEBUG();
 
 }
 
@@ -28,38 +28,71 @@ Socket::~Socket()
     {
         close();
     }
-    LOG_INFO() << "Socket::~Socket()";
+    LOG_DEBUG();
 }
 
 int Socket::createSocket(int family, int type, int protocol)
 {
     int ret = ::socket(family, type, protocol);
-    handle_error(ret > 0, ret, ret);
+    handle_error();
+    return ret;
 }
 
 bool Socket::init()
 {
-    handle_error((m_sock = ::socket(m_family, m_type, m_protocol)) > 0, true, false); 
+    m_sock = ::socket(m_family, m_type, m_protocol);
+    if (m_sock < 0)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
 }
 
 bool Socket::init(int sock)
 {
-    handle_error((m_sock = sock) > 0, true, false); 
+    m_sock = sock; 
+    if (m_sock < 0)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
 }
 
 bool Socket::bind(const IPAddress::ptr ptrAddr)
 {
-    handle_error(0 == ::bind(m_sock, ptrAddr->getSockAddr(), ptrAddr->getSockAddrLen()), true, false);
+    int ret = ::bind(m_sock, ptrAddr->getSockAddr(), ptrAddr->getSockAddrLen());
+    if (-1 == ret)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
 }
 
 bool Socket::listen(int backlog)
 {
-    handle_error(0 == ::listen(m_sock, backlog), true, false);
+    int ret = ::listen(m_sock, backlog);
+    if (-1 == ret)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
+
 }
 
 bool Socket::connect(const IPAddress::ptr ptrAddr)
 {
-    handle_error(0 == ::connect(m_sock, ptrAddr->getSockAddr(), ptrAddr->getSockAddrLen()), true, false);
+    int ret = ::connect(m_sock, ptrAddr->getSockAddr(), ptrAddr->getSockAddrLen());
+    if (-1 == ret)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
+
 }
 
 Socket::ptr Socket::accept(IPAddress::ptr& ptrAddr)
@@ -80,17 +113,22 @@ Socket::ptr Socket::accept(IPAddress::ptr& ptrAddr)
         ptrAddr = std::make_shared<IPv6Address>(addr);
     }
 
-    if (clientSock > 0)
+    Socket::ptr sock = std::make_shared<Socket>(m_family, m_type, m_protocol);
+    if (sock->init(clientSock))
     {
-        Socket::ptr sock = std::make_shared<Socket>(m_family, m_type, m_protocol);
-        handle_error(sock->init(clientSock), sock, nullptr);
+        return sock;
     }
     return nullptr;
 }
 
 bool Socket::close()
 {
-    handle_error(0 == ::close(m_sock), true, false);
+    int ret = ::close(m_sock);
+    if (-1 == ret)
+    {
+        return false;
+    }
+    return true;
 }
 
 ssize_t Socket::read(void *buf, size_t count)
@@ -141,12 +179,26 @@ ssize_t Socket::recvFrom(void* buf, size_t len, IPAddress::ptr& ptrAddr, int fla
 
 bool Socket::setOption(int level, int option, const void* optval, socklen_t len)
 {
-    handle_error(0 == setsockopt(m_sock, level, option, optval, len), true, false);
+    int ret = setsockopt(m_sock, level, option, optval, len);
+    if (-1 == ret)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
+
 }
 
 bool Socket::getOption(int level, int option, void* optval, socklen_t* len)
 {
-    handle_error(0 == getsockopt(m_sock, level, option, optval, len), true, false);
+    int ret = getsockopt(m_sock, level, option, optval, len);
+    if (-1 == ret)
+    {
+        handle_error();
+        return false;
+    }
+    return true;
+
 }
 
 bool Socket::setNonBlocking()
@@ -172,7 +224,13 @@ IPAddress::ptr Socket::getLocalAddress()
         break;
     }
     socklen_t addrlen = addr->getSockAddrLen();
-    handle_error(0 == getsockname(m_sock, addr->getSockAddr(), &addrlen), addr, nullptr);
+    int ret = getsockname(m_sock, addr->getSockAddr(), &addrlen);
+    if (-1 == ret)
+    {
+        handle_error();
+        return nullptr;
+    }
+    return addr;
 }
 
 IPAddress::ptr Socket::getPeerAddress()
@@ -190,7 +248,14 @@ IPAddress::ptr Socket::getPeerAddress()
         break;
     }
     socklen_t addrlen = addr->getSockAddrLen();
-    handle_error(0 == getpeername(m_sock, addr->getSockAddr(), &addrlen), addr, nullptr);
+    int ret = getpeername(m_sock, addr->getSockAddr(), &addrlen);
+    if (-1 == ret)
+    {
+        handle_error();
+        return nullptr;
+    }
+    return addr;
+
 }
 
 

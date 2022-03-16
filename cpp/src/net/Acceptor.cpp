@@ -1,5 +1,4 @@
 #include "Acceptor.h"
-
 #include "Log.h"
 
 namespace cpp
@@ -23,6 +22,13 @@ Acceptor::Acceptor(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::
     m_ptrChannel->addListenEvent(EPOLLIN | EPOLLET);
     m_ptrChannel->setEventCallback(std::bind(&Acceptor::handleEvent, this));
     ptrEventLoop->updateChannel(m_ptrChannel);
+
+    LOG_DEBUG();
+}
+
+Acceptor::~Acceptor()
+{
+    LOG_DEBUG();
 }
 
 void Acceptor::setNewConnectionCB(newConnectionCB_t cb)

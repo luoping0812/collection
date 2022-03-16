@@ -21,13 +21,18 @@ public:
 
     Connection(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::ptr ptrPeerAddr = IPAddress::ptr());
 
+    ~Connection();
+
     void read(std::string& str);
 
     void write(const std::string& str);
 
+    void close();
+
     void handleEvent();
 
-    void setHandleEventCB(std::function<void(Connection::ptr)> cb);
+    void setHandleEventCB(std::function<void(Connection::ptr)> cb) { m_handCB = cb; }
+    void setDeleteConnectionCB(std::function<void(Socket::ptr )> cb) { m_delCB = cb; };
 
     IPAddress::ptr getPeerAddress();
 
@@ -35,7 +40,8 @@ private:
     Socket::ptr m_ptrSock;
     Channel::ptr m_ptrChannel;
     EventLoop::ptr m_ptrEventLoop;
-    std::function<void(Connection::ptr)> m_cb;
+    std::function<void(Connection::ptr)> m_handCB;
+    std::function<void(Socket::ptr )> m_delCB;
     std::string m_strReadBuffer;
     std::string m_strWriteBuffer;
     IPAddress::ptr m_ptrPeerAddr;

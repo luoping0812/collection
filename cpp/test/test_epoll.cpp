@@ -11,7 +11,7 @@ using namespace cpp::net;
 
 int main(int argc, char const *argv[])
 {
-    cpp::Logger::instance()->init("test_epoll.log", LLV_INFO);
+    cpp::Logger::instance()->init("test_epoll.log", LLV_DEBUG);
 
     Socket::ptr ptrSock = std::make_shared<Socket>(AF_INET, SOCK_STREAM, 0);
     ptrSock->init();

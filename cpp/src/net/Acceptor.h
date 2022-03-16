@@ -23,6 +23,7 @@ public:
     using ptr = std::shared_ptr<Acceptor>;
 
     Acceptor(EventLoop::ptr ptrEventLoop, Socket::ptr ptrSock, IPAddress::ptr ptrAddr);
+    ~Acceptor();
 
     void setNewConnectionCB(newConnectionCB_t cb);
     void handleEvent();
