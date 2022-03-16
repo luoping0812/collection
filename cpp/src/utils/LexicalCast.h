@@ -11,8 +11,9 @@
 #include <cstring>
 using namespace std;
 
-namespace cpp 
+namespace utils 
 {
+
     const char* strue = "true";
     const char* sfalse = "false";
 
@@ -120,7 +121,7 @@ namespace cpp
     {
         static bool convert(const string& from)
         {
-            return cpp::convert(from.c_str());
+            return utils::convert(from.c_str());
         }
     };
 
@@ -129,7 +130,7 @@ namespace cpp
     {
         static bool convert(const char* from)
         {
-            return cpp::convert(from);
+            return utils::convert(from);
         }
     };
 
@@ -138,7 +139,7 @@ namespace cpp
     {
         static bool convert(char* from)
         {
-            return cpp::convert(from);
+            return utils::convert(from);
         }
     };
 
@@ -147,7 +148,7 @@ namespace cpp
     {
         static bool convert(const char(&from)[N])
         {
-            return cpp::convert(from);
+            return utils::convert(from);
         }
     };
 
@@ -156,7 +157,7 @@ namespace cpp
     {
         static bool convert(const char(&from)[N])
         {
-            return cpp::convert(from);
+            return utils::convert(from);
         }
     };
 
@@ -175,7 +176,7 @@ template <typename To, typename From>
 typename std::enable_if<!std::is_same<To, From>::value, To>::type
 lexical_cast(const From& from)
 {
-    return cpp::Converter<To, From>::convert(from);
+    return utils::Converter<To, From>::convert(from);
 }
 
 template <typename To, typename From>

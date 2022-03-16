@@ -2,9 +2,6 @@
 
 #include "Log.h"
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -58,6 +55,3 @@ void TcpServer::handleEvent(Connection::ptr ptrCon)
 }
 
 } // namespace net
-
-    
-} // namespace cpp

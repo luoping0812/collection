@@ -14,9 +14,6 @@
 #include <unordered_map>
 #include <vector>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -46,7 +43,4 @@ private:
     
 } // namespace net
     
-} // namespace cpp
-
-
 #endif

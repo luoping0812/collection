@@ -9,9 +9,6 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -79,7 +76,5 @@ private:
 };
     
 } // namespace net
-
-} // namespace cpp
 
 #endif

@@ -6,9 +6,6 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -260,6 +257,3 @@ IPAddress::ptr Socket::getPeerAddress()
 
 
 } // namespace net
-
-    
-} // namespace cpp

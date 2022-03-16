@@ -9,9 +9,6 @@
 
 #include <sys/epoll.h>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -39,8 +36,5 @@ private:
 
     
 } // namespace net
-
     
-} // namespace cpp
-
 #endif

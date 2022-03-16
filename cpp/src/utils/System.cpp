@@ -2,10 +2,8 @@
 
 #include <string.h>
 
-
-namespace cpp
+namespace utils
 {
-
 
 void memZero(void* buf, size_t size)
 {
@@ -13,5 +11,4 @@ void memZero(void* buf, size_t size)
 }
    
 
-    
-} // namespace cpp
+} // namespace utils

@@ -1,9 +1,8 @@
 
 #include "FileTool.h"
 
-namespace cpp
+namespace utils 
 {
-
 
 std::string FileTool::getFileNameFromDir(const std::string& dir)
 {

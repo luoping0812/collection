@@ -6,12 +6,12 @@
 #include "System.h"
 #include "Macro.h"
 
-using namespace cpp;
-using namespace cpp::net;
+using namespace utils;
+using namespace net;
 
 int main(int argc, char const *argv[])
 {
-    cpp::Logger::instance()->init("test_epoll.log", LLV_DEBUG);
+    utils::Logger::instance()->init("test_epoll.log", LLV_DEBUG);
 
     Socket::ptr ptrSock = std::make_shared<Socket>(AF_INET, SOCK_STREAM, 0);
     ptrSock->init();
@@ -20,6 +20,11 @@ int main(int argc, char const *argv[])
     IPAddress::ptr addr = std::make_shared<IPv4Address>(8000);
     TcpServer::ptr ptrServer = std::make_shared<TcpServer>(eventLoop, ptrSock, addr);
     ptrServer->setHandEventCB([](Connection::ptr ptrCon){
+            if (!ptrCon->isConnected())
+            {
+                ptrCon->close();
+            }
+
             std::string msg;
             ptrCon->read(msg); 
             LOG_FMT_INFO("recv client %s msg: %s, size: %d", ptrCon->getPeerAddress()->getIpPort().c_str(), msg.c_str(), msg.size()); 

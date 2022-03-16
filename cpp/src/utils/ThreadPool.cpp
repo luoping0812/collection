@@ -1,7 +1,8 @@
 #include "ThreadPool.h"
 #include "Log.h"
 
-namespace cpp
+
+namespace utils
 {
 
 ThreadPool::ThreadPool(size_t num)
@@ -53,4 +54,4 @@ ThreadPool::~ThreadPool()
     }
 }
    
-} // namespace cpp
+} // namespace utils

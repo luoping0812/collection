@@ -11,11 +11,10 @@
 #include <memory>
 #include <string>
 
-namespace cpp
-{
-
 namespace net
 {
+
+using namespace utils;
 
 class Acceptor : public std::enable_shared_from_this<Acceptor>
 {
@@ -37,8 +36,5 @@ private:
 
     
 } // namespace net
-
-    
-} // namespace cpp
 
 #endif

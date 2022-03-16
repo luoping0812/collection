@@ -2,7 +2,7 @@
 
 #include "arpa/inet.h"
 
-namespace cpp
+namespace net
 {
 
 EEndian Endian::getHostEndian()
@@ -32,4 +32,4 @@ uint32_t Endian::ntoh(uint32_t val)
     return ::ntohl(val);
 }
 
-} // namespace cpp
+} // namespace net

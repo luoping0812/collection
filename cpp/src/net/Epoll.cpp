@@ -4,9 +4,6 @@
 
 #include <unistd.h>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -30,7 +27,7 @@ Epoll::~Epoll()
 bool Epoll::init()
 {
     m_ptrEvents = new epoll_event[m_nMaxEvents];
-    memZero(m_ptrEvents, sizeof(struct epoll_event) * m_nMaxEvents);
+    utils::memZero(m_ptrEvents, sizeof(struct epoll_event) * m_nMaxEvents);
     m_epollFd = ::epoll_create1(0);
     if (m_epollFd < 0)
     {
@@ -43,7 +40,7 @@ void Epoll::updateChannel(Channel::ptr ptrChannel)
 {
     int sockfd = ptrChannel->getSocketPtr()->getSocket();
     struct epoll_event ev;
-    memZero(&ev, sizeof(struct epoll_event));
+    utils::memZero(&ev, sizeof(struct epoll_event));
     ev.data.ptr = ptrChannel.get();
     //ev.data.fd = sockfd;
     ev.events = ptrChannel->getListenEvent();
@@ -106,6 +103,3 @@ std::vector<Channel*> Epoll::poll(int timeout)
 }
 
 } // namespace net
-
-    
-} // namespace cpp

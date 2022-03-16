@@ -3,8 +3,10 @@
 #include <sstream>
 #include <time.h>
 
-namespace cpp
+namespace utils
 {
+    
+
 
 time_t TimeTool::now()
 {
@@ -32,5 +34,4 @@ std::string TimeTool::getCurrentDateTime(const char* fmt)
     return buf;
 }
    
-
-} // namespace cpp
+} // namespace utils

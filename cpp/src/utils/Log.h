@@ -15,18 +15,18 @@
 #include <stdint.h>
 #include <stdarg.h>
 
-#define LLV_TRACE           cpp::ELogLevel::LOG_LEVEL_TRACE
-#define LLV_DEBUG           cpp::ELogLevel::LOG_LEVEL_DEBUG
-#define LLV_INFO            cpp::ELogLevel::LOG_LEVEL_INFO
-#define LLV_WARN            cpp::ELogLevel::LOG_LEVEL_WARN
-#define LLV_ERROR           cpp::ELogLevel::LOG_LEVEL_ERROR
+#define LLV_TRACE           utils::ELogLevel::LOG_LEVEL_TRACE
+#define LLV_DEBUG           utils::ELogLevel::LOG_LEVEL_DEBUG
+#define LLV_INFO            utils::ELogLevel::LOG_LEVEL_INFO
+#define LLV_WARN            utils::ELogLevel::LOG_LEVEL_WARN
+#define LLV_ERROR           utils::ELogLevel::LOG_LEVEL_ERROR
 
 #define LOCAL_INFO \
-    cpp::TimeTool::getCurrentDateTime(), cpp::FileTool::getFileNameFromDir(__FILE__), __FUNCTION__, __LINE__
+    utils::TimeTool::getCurrentDateTime(), utils::FileTool::getFileNameFromDir(__FILE__), __FUNCTION__, __LINE__
 
 #define LOG_LEVEL(level) \
-    if (level >= cpp::Logger::instance()->getLevel()) \
-        cpp::LogStream(level, LOCAL_INFO).stream()
+    if (level >= utils::Logger::instance()->getLevel()) \
+        utils::LogStream(level, LOCAL_INFO).stream()
 
 #define LOG_TRACE()          LOG_LEVEL(LLV_TRACE)
 #define LOG_DEBUG()          LOG_LEVEL(LLV_DEBUG)
@@ -36,8 +36,8 @@
 
 
 #define LOG_FMT_LEVEL(level, fmt, ...) \
-    if (level >= cpp::Logger::instance()->getLevel()) \
-        cpp::LogStream(level, LOCAL_INFO).format(fmt, __VA_ARGS__)
+    if (level >= utils::Logger::instance()->getLevel()) \
+        utils::LogStream(level, LOCAL_INFO).format(fmt, __VA_ARGS__)
 
 #define LOG_FMT_TRACE(fmt, ...)          LOG_FMT_LEVEL(LLV_TRACE, fmt, __VA_ARGS__)
 #define LOG_FMT_DEBUG(fmt, ...)          LOG_FMT_LEVEL(LLV_DEBUG, fmt, __VA_ARGS__)
@@ -45,7 +45,7 @@
 #define LOG_FMT_WARN(fmt, ...)           LOG_FMT_LEVEL(LLV_WARN,  fmt, __VA_ARGS__)
 #define LOG_FMT_ERROR(fmt, ...)          LOG_FMT_LEVEL(LLV_ERROR, fmt, __VA_ARGS__)
 
-namespace cpp
+namespace utils
 {
 
 enum class ELogLevel
@@ -126,7 +126,6 @@ private:
  
 static inline std::string getLogLevelName(ELogLevel eLevel);
 
-} // namespace cpp
-
+} // namespace utils
 
 #endif

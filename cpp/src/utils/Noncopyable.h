@@ -1,9 +1,9 @@
 #ifndef NONCOPYABLE_H
 #define NONCOPYABLE_H
 
-namespace cpp
+namespace utils
 {
-
+    
 class Noncopyable
 {
 public:
@@ -15,7 +15,7 @@ private:
     Noncopyable& operator=(const Noncopyable& ) = delete;
 };
     
-} // namespace cpp
+} // namespace utils
 
 
 #endif

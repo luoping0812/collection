@@ -1,9 +1,6 @@
 #include "Channel.h"
 #include "Log.h"
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -41,6 +38,3 @@ void Channel::addListenEvent(uint32_t event)
 }
 
 } // namespace net
-
-    
-} // namespace cpp

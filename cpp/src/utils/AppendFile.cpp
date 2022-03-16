@@ -1,8 +1,7 @@
 #include "AppendFile.h"
 
-namespace cpp
+namespace utils 
 {
-
 
 AppendFile::AppendFile(const char* file)
 {
@@ -44,4 +43,4 @@ AppendFile::~AppendFile()
 }
 
     
-} // namespace cpp
+} // namespace utils 

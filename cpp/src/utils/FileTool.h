@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace cpp
+namespace utils 
 {
 
 class FileTool

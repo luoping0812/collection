@@ -2,10 +2,9 @@
 #define SINGLETON_H
 
 
-namespace cpp
+namespace utils
 {
-
-
+    
 template<typename T>
 class Singleton
 {
@@ -17,6 +16,6 @@ public:
     }
 };
 
-} // namespace cpp
+} // namespace utils
 
 #endif

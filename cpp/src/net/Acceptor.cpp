@@ -1,9 +1,6 @@
 #include "Acceptor.h"
 #include "Log.h"
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -51,5 +48,3 @@ void Acceptor::handleEvent()
 }
 
 } // namespace net
-
-} // namespace cpp

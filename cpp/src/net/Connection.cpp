@@ -3,9 +3,6 @@
 #include "System.h"
 #include "Log.h"
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -34,7 +31,7 @@ void Connection::handleEvent()
     char buf[1024];
     while (true)
     {
-        memZero(buf, sizeof(buf));
+        utils::memZero(buf, sizeof(buf));
         ssize_t bytes = m_ptrSock->read(buf, sizeof(buf));
         if (bytes > 0)
         {
@@ -90,6 +87,3 @@ IPAddress::ptr Connection::getPeerAddress()
 }
 
 } // namespace net
-
-    
-} // namespace cpp

@@ -1,9 +1,6 @@
 #include "EventLoop.h"
 #include "Log.h"
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -44,6 +41,3 @@ void EventLoop::deleteeChannel(Channel::ptr ptrChannel)
 }
 
 } // namespace net
-
-    
-} // namespace cpp

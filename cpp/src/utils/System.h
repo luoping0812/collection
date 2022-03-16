@@ -8,13 +8,12 @@
 
 #include <arpa/inet.h>
 
-namespace cpp
+namespace utils
 {
-
 
 void memZero(void* buf, size_t size);
 
     
-} // namespace cpp
+} // namespace utils
 
 #endif

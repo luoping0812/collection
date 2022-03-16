@@ -8,12 +8,12 @@
 
 
 using namespace std;
-using namespace cpp;
-using namespace cpp::net;
+using namespace utils;
+using namespace net;
 
 int main(int argc, char const *argv[])
 {
-    cpp::Logger::instance()->init("test_server.log", LLV_INFO, false, 4);
+    utils::Logger::instance()->init("test_server.log", LLV_INFO, false, 4);
     Socket::ptr ptrSock = std::make_shared<Socket>(AF_INET, SOCK_STREAM, 0);
     if (!ptrSock->init())
     {

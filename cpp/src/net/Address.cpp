@@ -6,9 +6,6 @@
 
 #include <arpa/inet.h>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -41,7 +38,7 @@ int IPAddress::getFamily() const
 
 IPv4Address::IPv4Address()
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin_family = AF_INET;
     LOG_DEBUG();
 }
@@ -54,7 +51,7 @@ IPv4Address::IPv4Address(const struct sockaddr_in& addr)
 
 IPv4Address::IPv4Address(const std::string& strIp, const uint16_t nPort)
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin_family = AF_INET;
     ::inet_pton(AF_INET, strIp.c_str(), &(m_addr.sin_addr));
     m_addr.sin_port = Endian::hton(nPort);
@@ -63,7 +60,7 @@ IPv4Address::IPv4Address(const std::string& strIp, const uint16_t nPort)
 
 IPv4Address::IPv4Address(const uint16_t nPort, bool bLoopBackOnly)
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin_family = AF_INET;
     m_addr.sin_addr.s_addr = Endian::hton(bLoopBackOnly ? INADDR_LOOPBACK : INADDR_ANY);
     m_addr.sin_port = Endian::hton(nPort);
@@ -114,14 +111,14 @@ IPv6Address::IPv6Address(const struct sockaddr_in6& addr)
 
 IPv6Address::IPv6Address()
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin6_family = AF_INET6;
     LOG_DEBUG();
 }
 
 IPv6Address::IPv6Address(const std::string& strIp, const uint16_t nPort)
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin6_family = AF_INET6;
     ::inet_pton(AF_INET6, strIp.c_str(), &(m_addr.sin6_addr));
     m_addr.sin6_port = Endian::hton(nPort);
@@ -130,7 +127,7 @@ IPv6Address::IPv6Address(const std::string& strIp, const uint16_t nPort)
 
 IPv6Address::IPv6Address(const uint16_t nPort, bool bLoopBackOnly)
 {
-    memZero(&m_addr, sizeof(m_addr));
+    utils::memZero(&m_addr, sizeof(m_addr));
     m_addr.sin6_family = AF_INET6;
     m_addr.sin6_addr = bLoopBackOnly ? in6addr_loopback : in6addr_any;
     m_addr.sin6_port = Endian::hton(nPort);
@@ -174,6 +171,4 @@ socklen_t IPv6Address::getSockAddrLen() const
 }   
 
 } // namespace net
-
-} // namespace cpp
 

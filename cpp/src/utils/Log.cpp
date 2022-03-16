@@ -1,9 +1,9 @@
 #include "Log.h"
 
 
-namespace cpp
+namespace utils
 {
-
+    
 FileAppender::FileAppender(const std::string& name)
 {
     m_ptrAppend = std::shared_ptr<AppendFile>();
@@ -74,7 +74,7 @@ LogStream::LogStream(ELogLevel eLevel, const std::string& strTime, const std::st
 LogStream::~LogStream()
 {
     m_ostringstream << std::endl;
-    cpp::Logger::instance()->log(m_ostringstream.str());
+    utils::Logger::instance()->log(m_ostringstream.str());
 }
 
 void LogStream::format(const char* fmt, ...)
@@ -119,4 +119,4 @@ std::string getLogLevelName(ELogLevel eLevel)
     return "[]"; 
 }
 
-} // namespace cpp
+} // namespace utils

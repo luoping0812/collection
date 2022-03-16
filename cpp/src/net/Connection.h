@@ -8,9 +8,6 @@
 #include <memory>
 #include <string>
 
-namespace cpp
-{
-
 namespace net
 {
 
@@ -35,6 +32,7 @@ public:
     void setDeleteConnectionCB(std::function<void(Socket::ptr )> cb) { m_delCB = cb; };
 
     IPAddress::ptr getPeerAddress();
+    bool isConnected() { return m_bConnected; }
 
 private:
     Socket::ptr m_ptrSock;
@@ -51,8 +49,4 @@ private:
 } // namespace net
 
     
-} // namespace cpp
-
-
-
 #endif

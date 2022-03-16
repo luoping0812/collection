@@ -1,7 +1,6 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-
 #include "Noncopyable.h"
 #include "Address.h"
 
@@ -9,13 +8,10 @@
 #include <string>
 
 
-namespace cpp
-{
-
 namespace net
 {
 
-class Socket : Noncopyable
+class Socket : utils::Noncopyable
 {
 public:
     using ptr = std::shared_ptr<Socket>;
@@ -62,7 +58,4 @@ private:
 } // namespace net
 
     
-} // namespace cpp
-
-
 #endif

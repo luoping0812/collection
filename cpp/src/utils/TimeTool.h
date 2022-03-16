@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace cpp
+namespace utils
 {
 
 class TimeTool 
@@ -15,6 +15,6 @@ public:
     static std::string getCurrentDateTime(const char* fmt = "%Y-%m-%d %H:%M:%S");
 };
    
-} // namespace cpp
+} // namespace utils
 
 #endif

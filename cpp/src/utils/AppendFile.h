@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace cpp
+namespace utils
 {
 
 class AppendFile
@@ -47,6 +47,6 @@ private:
     std::fstream m_fstream;
 };
     
-} // namespace cpp
+} // namespace utils 
 
 #endif

@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-namespace cpp
+namespace net 
 {
 
 enum class EEndian 
@@ -26,7 +26,7 @@ public:
 
 
 
-} // namespace cpp
+} // namespace net 
 
 
 #endif

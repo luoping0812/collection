@@ -1,11 +1,11 @@
 #include "Log.h"
 
 
-using namespace cpp;
+using namespace utils;
 
 int main(int argc, char const *argv[])
 {
-    cpp::Logger::instance()->init("test.log", LLV_INFO, true, 4);
+    utils::Logger::instance()->init("test.log", LLV_INFO, true, 4);
 
     LOG_INFO() << "hello";
     LOG_INFO() << "hello";

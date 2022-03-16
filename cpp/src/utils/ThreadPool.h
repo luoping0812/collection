@@ -11,7 +11,7 @@
 #include <future>
 #include <memory>
 
-namespace cpp
+namespace utils
 {
 
 class ThreadPool
@@ -54,6 +54,6 @@ private:
     std::vector<std::thread*> m_vecThreads;
 };
     
-} // namespace cpp
+} // namespace utils
 
 #endif
