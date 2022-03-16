@@ -172,13 +172,15 @@ namespace cpp
 }
 
 template <typename To, typename From>
-typename std::enable_if<!std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+typename std::enable_if<!std::is_same<To, From>::value, To>::type
+lexical_cast(const From& from)
 {
     return cpp::Converter<To, From>::convert(from);
 }
 
 template <typename To, typename From>
-typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+typename std::enable_if<std::is_same<To, From>::value, To>::type
+lexical_cast(const From& from)
 {
     return from;
 }
