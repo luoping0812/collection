@@ -68,6 +68,7 @@ LogStream::LogStream(ELogLevel eLevel, const std::string& strTime, const std::st
     m_ostringstream << strTime << spliter;
     m_ostringstream << getLogLevelName(eLevel) << spliter;
     m_ostringstream << "[" << strFile << ":" << strFunc << ":" << nLine <<"]" << spliter;
+    m_ostringstream << "[" << std::this_thread::get_id() << "]" << spliter;
 }
 
 LogStream::~LogStream()

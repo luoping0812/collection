@@ -1,7 +1,7 @@
 #include "Address.h"
 
 #include "System.h"
-#include "lexical_cast.h"
+#include "LexicalCast.h"
 #include "Endian.h"
 
 #include <arpa/inet.h>

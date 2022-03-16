@@ -7,10 +7,12 @@
 #include "Address.h"
 #include "Socket.h"
 #include "Connection.h"
+#include "ThreadPool.h"
 
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <vector>
 
 namespace cpp
 {
@@ -34,9 +36,11 @@ public:
 
 private:
     Acceptor::ptr m_ptrAcceptor;
-    EventLoop::ptr m_ptrEventLoop;
+    EventLoop::ptr m_ptrMainReactor;
+    std::vector<EventLoop::ptr> m_vecSubReactor;
     std::function<void(Connection::ptr)> m_cb;
     std::unordered_map<int, Connection::ptr> m_mapFd2Connection;
+    ThreadPool::ptr m_ptrThreads;
 };
     
 } // namespace net
