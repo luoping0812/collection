@@ -16,6 +16,7 @@ set(src_list
         src/utils/FileTool.cpp
         src/utils/AppendFile.cpp
         src/utils/ThreadPool.cpp
+        src/utils/Backtrace.cpp
         src/net/Address.cpp
         src/net/Socket.cpp
         src/net/Endian.cpp
@@ -36,8 +37,10 @@ add_executable(test_log ./test/test_log ${src_list})
 add_executable(test_server ./test/test_server ${src_list})
 add_executable(test_client ./test/test_client ${src_list})
 add_executable(test_epoll ./test/test_epoll ${src_list})
+add_executable(test_mem ./test/test_mem ${src_list})
 
 target_link_libraries(test_log ${libs})
 target_link_libraries(test_server ${libs})
 target_link_libraries(test_client ${libs})
 target_link_libraries(test_epoll ${libs})
+target_link_libraries(test_mem ${libs})

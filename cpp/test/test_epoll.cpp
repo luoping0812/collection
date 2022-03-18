@@ -5,12 +5,29 @@
 #include "EventLoop.h"
 #include "System.h"
 #include "Macro.h"
+#include "Backtrace.h"
+
+#include <signal.h>
 
 using namespace utils;
 using namespace net;
 
+void handleSig(int sig)
+{
+    std::cout << sig << std::endl; 
+    std::vector<std::string> res = utils::Backtrace();
+    for (int i = 0; i < res.size(); i++)
+    {
+        LOG_INFO() << res.at(i);
+    }
+}
+
 int main(int argc, char const *argv[])
 {
+    signal(SIGSEGV, handleSig);
+    signal(SIGKILL, handleSig);
+    signal(35, handleSig);
+
     utils::Logger::instance()->init("test_epoll.log", LLV_DEBUG);
 
     Socket::ptr ptrSock = std::make_shared<Socket>(AF_INET, SOCK_STREAM, 0);
